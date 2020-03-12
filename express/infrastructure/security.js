@@ -18,7 +18,7 @@ const constants = Object.freeze({
   CSRF_TOKEN: '_csrf'
 });
 
-// const ACCESS_TOKEN_OAUTH2 = 'access_token';
+const ACCESS_TOKEN_OAUTH2 = 'access_token';
 
 function Security(options) {
   this.opts = options || {};
@@ -101,7 +101,7 @@ function getTokenFromCode(self, req) {
 }
 
 function getUserDetails(self, securityCookie) {
-  return request.get(`${self.opts.apiUrl}/details`)
+  return request.get(`${self.opts.apiUrl}/o/userinfo`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
@@ -325,7 +325,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       }
 
       /* We store it in a session cookie */
-      storeCookie(req, res, response.body);
+      storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
