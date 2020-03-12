@@ -325,7 +325,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       }
 
       /* We store it in a session cookie */
-      storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
+      storeCookie(req, res, response.body);
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
