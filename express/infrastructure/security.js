@@ -323,7 +323,6 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
-
       /* We store it in a session cookie */
       storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
 
@@ -334,6 +333,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
           if (!error) {
+            res.cookie('test', resp.body);
             const userInfo = resp.body;
             self.opts.appInsights.setAuthenticatedUserContext(userInfo.sub);
             self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
