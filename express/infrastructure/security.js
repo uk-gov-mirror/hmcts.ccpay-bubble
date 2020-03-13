@@ -32,7 +32,7 @@ function Security(options) {
 
 function addOAuth2Parameters(url, state, self, req) {
   url.query.response_type = 'code';
-  url.query.scope = 'openid';
+  url.query.scope = 'openid profile roles';
   url.query.state = state;
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
@@ -101,7 +101,7 @@ function getTokenFromCode(self, req) {
 }
 
 function getUserDetails(self, securityCookie) {
-  return request.get(`${self.opts.apiUrl}/details`)
+  return request.get(`${self.opts.apiUrl}/o/userinfo`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
@@ -335,7 +335,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
         (error, resp) => {
           if (!error) {
             const userInfo = resp.body;
-            self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
+            self.opts.appInsights.setAuthenticatedUserContext(userInfo.sub);
             self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
           }
         }
