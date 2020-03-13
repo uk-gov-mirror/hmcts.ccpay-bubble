@@ -196,7 +196,7 @@ function protectImpl(req, res, next, self) {
         }
       }
 
-      self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
+      self.opts.appInsights.setAuthenticatedUserContext(response.body.sub);
       req.roles = response.body.roles;
       req.userInfo = response.body;
       return authorize(req, res, next, self);
@@ -333,7 +333,6 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
           if (!error) {
-            res.cookie('test', resp.body);
             const userInfo = resp.body;
             self.opts.appInsights.setAuthenticatedUserContext(userInfo.sub);
             self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
