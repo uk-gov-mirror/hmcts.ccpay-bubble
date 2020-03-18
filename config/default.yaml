@@ -3,8 +3,9 @@ security:
 idam:
   client_id: paybubble
   client_secret: IDAM_CLIENT_SECRET
-  login_url: http://localhost:23443/login
+  login_url: http://localhost:23443/o/authorize
   api_url: http://localhost:23443
+  web_url: http://localhost:23443
 session:
   cookieName: SESSION_ID
 ccpaybubble:
