@@ -148,9 +148,9 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
       if (token) {
-        res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
+        res.redirect(`${self.opts.apiUrl}/logout?jwt=${token}`);
       } else {
-        res.redirect(`${self.opts.loginUrl}/logout`);
+        res.redirect(`${self.opts.apiUrl}/logout`);
       }
     });
   };
