@@ -127,7 +127,7 @@ function handleCookie(req) {
 
 function invalidatesUserToken(self, securityCookie) {
   return request
-    .get(self.opts.apiUrl + "/o/endSession")
+    .get(`${self.opts.apiUrl}/o/endSession`)
     .query({ id_token_hint: securityCookie })
     .set('Accept', 'application/json');
 }
