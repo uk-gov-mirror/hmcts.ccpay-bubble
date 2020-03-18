@@ -125,23 +125,23 @@ function handleCookie(req) {
   return null;
 }
 
-function invalidateToken(self, req) {
-  const url = URL.parse(`${self.opts.apiUrl}/session/${req.cookies[constants.SECURITY_COOKIE]}`, true);
-
-  return request.delete(url.format())
-    .auth(self.opts.clientId, self.opts.clientSecret);
+function invalidatesUserToken(self, securityCookie) {
+  return request
+    .get(self.opts.apiUrl + "/o/endSession")
+    .query({ id_token_hint: securityCookie })
+    .set('Accept', 'application/json');
 }
 
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
-
   // eslint-disable-next-line no-unused-vars
   return function ret(req, res, next) {
-    return invalidateToken(self, req).end(err => {
+    const token = req.cookies[constants.SECURITY_COOKIE];
+
+    return invalidatesUserToken(self, token).end(err => {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
       }
-      const token = req.cookies[constants.SECURITY_COOKIE];
       res.clearCookie(constants.SECURITY_COOKIE);
       res.clearCookie(constants.REDIRECT_COOKIE);
       res.clearCookie(constants.USER_COOKIE);
