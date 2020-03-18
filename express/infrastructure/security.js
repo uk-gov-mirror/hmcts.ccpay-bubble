@@ -147,10 +147,12 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.USER_COOKIE);
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
+      let url = self.opts.loginUrl;
+      const hostname = (new URL(url)).hostname;
       if (token) {
-        res.redirect(`${self.opts.apiUrl}/logout?jwt=${token}`);
+        res.redirect(`${hostname}/login/logout?jwt=${token}`);
       } else {
-        res.redirect(`${self.opts.apiUrl}/logout`);
+        res.redirect(`${hostname}/login/logout`);
       }
     });
   };
