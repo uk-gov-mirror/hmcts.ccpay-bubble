@@ -18,6 +18,7 @@ export class CcdSearchComponent implements OnInit {
   selectedValue = 'CCDorException';
   ccdPattern =  /^([0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([0-9]{16})?$/i;
   dcnPattern = /^[0-9]{21}$/i;
+  prnPattern= /^[0-9]{21}$/i;
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
@@ -47,7 +48,9 @@ export class CcdSearchComponent implements OnInit {
         Validators.pattern(!this.isBulkscanningEnable ?
           this.ccdPattern :
           this.selectedValue === 'CCDorException' ?
-          this.ccdPattern : this.dcnPattern)
+          this.ccdPattern :
+          this.selectedValue === 'DCN' ?
+          this.dcnPattern : this.prnPattern)
       ]),
       CCDorException: new FormControl(this.selectedValue) });
   }
@@ -57,6 +60,7 @@ export class CcdSearchComponent implements OnInit {
       this.hasErrors = false;
       this.noCaseFoundInCCD = false;
       this.searchForm.get('CCDorException').setValue(value);
+      //alert(this.searchForm.get('CCDorException').value);
       this.fromValidation();
     }
 
