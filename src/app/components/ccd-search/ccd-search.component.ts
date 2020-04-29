@@ -83,7 +83,7 @@ export class CcdSearchComponent implements OnInit {
           this.noCaseFound = true;
         });
 
-      } else {
+      } else if (this.selectedValue.toLocaleLowerCase() === 'ccdorexception') {
         this.ccdCaseNumber = this.removeHyphenFromString(searchValue);
         this.dcnNumber = null;
         this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
@@ -94,13 +94,24 @@ export class CcdSearchComponent implements OnInit {
         }, err => {
           this.noCaseFoundInCCD = true;
         });
-      }
-
-    } else {
+      } else if (this.selectedValue.toLocaleLowerCase() === 'prn') {
+      this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
+        if (res['data'].ccd_reference || res['data'].exception_record_reference) {
+          this.dcnNumber = searchValue;
+          this.ccdCaseNumber = res['data'].ccd_reference ? res['data'].ccd_reference : res['data'].exception_record_reference;
+          // tslint:disable-next-line:max-line-length
+          const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+        }
+        this.noCaseFound = true;
+      }).catch(() => {
+        this.noCaseFound = true;
+      });
+    } else  {
       return this.hasErrors = true;
     }
   }
-
+}
   removeHyphenFromString(input: string) {
     const pattern = /\-/gi;
     return input.replace(pattern, '');

@@ -12,7 +12,7 @@
         What do you want to search for?
       </h3>
     </legend>
-    <select class="form-control" id="status" name="status" #mySelect (change)= "onSelectionChange(mySelect.value)">
+    <!-- <select class="form-control" id="status" name="status" #mySelect (change)= "onSelectionChange(mySelect.value)">
         <option [value]="'CCDorException'">CCD case reference or exception record</option>
         <option [value]="'DCN'">Payment Asset Number (DCN)</option>
         <option [value]="'PRN'">Payment Reference Number (PRN)</option>
@@ -68,22 +68,8 @@
               <span *ngIf="hasErrors && selectedValue === 'PRN'" class="error-message">Enter PRN number in the correct format</span>
               <span *ngIf="noCaseFound" class="error-message">No record found for this PRN</span>
             </div>
-        </div>
+        </div> -->
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
     <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
        <div class="govuk-radios__item">
           <input 
@@ -177,7 +163,7 @@
         </div>
 
          
-      </div> -->
+      </div> 
   </fieldset>
   <button class="button" type="submit" (click)="searchFees()">Search</button>
   <div class="nocase-message" *ngIf="noCaseFoundInCCD">No matching cases found</div>
