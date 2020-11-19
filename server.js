@@ -80,6 +80,9 @@ module.exports = (security, appInsights) => {
   app.use(express.static('dist/ccpay-bubble'));
 
   app.use('/pcipalThirdCall', (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Auth-Dev, CSRF-Token');
     res.status(HttpStatus.OK).send(security.pcipalForm(req, res));
   });
 
