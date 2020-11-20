@@ -130,8 +130,9 @@ function invalidateToken(self, req) {
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
 Security.prototype.pcipalForm = function pcipalForm(req, res) {
+  Logger.getLogger('pcipalForm').error(res);
   const pcipalData = req.cookies[constants.PCIPAL_SECURITY_INFO];
-  let html = '';
+  let html = '<meta name="referrer" content="no-referrer" />';
   html += '<body>';
   html += `<form action='${pcipalData.url}' enctype='application/x-www-form-urlencoded; charset=utf-8' method='post' name='form1'>`;
   html += `<input type='hidden' name='X-BEARER-TOKEN' value='${pcipalData.auth}'>`;
