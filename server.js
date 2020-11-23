@@ -79,13 +79,22 @@ module.exports = (security, appInsights) => {
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
 
-  app.use('/pcipalThirdCall', (req, res) => {
-    Logger.getLogger('pcipalThirdCall').info(res);
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Auth-Dev, CSRF-Token');
+  app.use(cors({
+    origin: 'http://localhost:4200', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: [
+      'Content-Type', 
+      'Authorization', 
+      'Origin', 
+      'x-access-token', 
+      'XSRF-TOKEN'
+    ], 
+    preflightContinue: false,
+  }), (req, res) => {
     res.status(HttpStatus.OK).send(security.pcipalForm(req, res));
   });
+
+  app.use('/pcipalThirdCall', );
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
