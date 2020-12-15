@@ -59,7 +59,7 @@ class PayhubController {
           },
           (error, response, body) => {
             if (error) {
-              return res.status(500).json({ err: `${error}`, success: false });
+              return res.status(500).json({ err: `${error.message}`, success: false });
             }
             return res.status(200).send(body);
           });
