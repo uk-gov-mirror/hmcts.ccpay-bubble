@@ -80,21 +80,21 @@ module.exports = (security, appInsights) => {
   app.use(express.static('dist/ccpay-bubble'));
 
   app.use(cors({
-    origin: 'http://localhost:4200', 
+    origin: 'http://localhost:4200',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: [
-      'Content-Type', 
-      'Authorization', 
-      'Origin', 
-      'x-access-token', 
+      'Content-Type',
+      'Authorization',
+      'Origin',
+      'x-access-token',
       'XSRF-TOKEN'
-    ], 
-    preflightContinue: false,
+    ],
+    preflightContinue: false
   }), (req, res) => {
     res.status(HttpStatus.OK).send(security.pcipalForm(req, res));
   });
 
-  app.use('/pcipalThirdCall', );
+  app.use('/pcipalThirdCall',);
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
