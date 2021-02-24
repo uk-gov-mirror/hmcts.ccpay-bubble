@@ -131,6 +131,7 @@ function invalidateToken(self, req) {
 }
 Security.prototype.pcipalForm = function pcipalForm(req, res) {
   Logger.getLogger('pcipalForm').error(res);
+  Logger.getLogger('pcipalForm').error('Start of loading PCI PAL Antenna page');
   const pcipalData = req.cookies[constants.PCIPAL_SECURITY_INFO];
   let html = '<meta name="referrer" content="no-referrer" />';
   html += '<body>';
@@ -142,6 +143,7 @@ Security.prototype.pcipalForm = function pcipalForm(req, res) {
   html += '<script>window.onload = function () { document.forms["form1"].submit();}</script>';
   html += '</body>';
   res.clearCookie(constants.PCIPAL_SECURITY_INFO);
+  Logger.getLogger('pcipalForm').error('End of loading PCI PAL Antenna page');
   return html;
 };
 
