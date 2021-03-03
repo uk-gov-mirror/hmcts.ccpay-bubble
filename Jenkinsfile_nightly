@@ -44,6 +44,7 @@ withNightlyPipeline("nodejs", product, component) {
   loadVaultSecrets(secrets)
   enableMutationTest(120)
   enableFullFunctionalTest(90)
+  enableSecurityScan()
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
@@ -61,5 +62,15 @@ withNightlyPipeline("nodejs", product, component) {
       reportName           : "PayBubble Mutation tests",
       alwaysLinkToLastBuild: true
     ]
+  }
+  after('securityScan') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/",
+      reportFiles          : 'activescan.html',
+      reportName           : 'ccpaybubble ZAP Security Scan Report'
+    ])
   }
 }
