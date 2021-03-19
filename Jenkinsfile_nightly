@@ -63,4 +63,14 @@ withNightlyPipeline("nodejs", product, component) {
       alwaysLinkToLastBuild: true
     ]
   }
+  after('securityScan') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/",
+      reportFiles          : 'activescan.html',
+      reportName           : 'XUIMC ZAP Security Scan Report'
+    ])
+  }
 }
