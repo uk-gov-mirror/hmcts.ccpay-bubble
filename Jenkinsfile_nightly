@@ -43,8 +43,8 @@ withNightlyPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableCrossBrowserTest()
-  enableFullFunctionalTest(90)
+//  enableCrossBrowserTest()
+//  enableFullFunctionalTest(90)
   enableMutationTest(120)
   after('checkout') {
     sh "yarn cache clean"
