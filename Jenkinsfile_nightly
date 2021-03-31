@@ -1,4 +1,4 @@
-#!groovy 
+#!groovy
 
 properties([
   pipelineTriggers([cron('0 3 * * *')]),
@@ -12,6 +12,7 @@ properties([
 
 def product = "ccpay"
 def component = "bubble-frontend"
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'ccpay-${env}': [
@@ -42,9 +43,9 @@ withNightlyPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableMutationTest(120)
+  enableCrossBrowserTest()
   enableFullFunctionalTest(90)
-  enableSecurityScan()
+  enableMutationTest(120)
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
@@ -52,6 +53,11 @@ withNightlyPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
     sh 'chmod +x bin/run-mutation-tests.sh'
+    yarnBuilder.yarn('test:a11y')
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  }
+  after('crossBrowserTest') {
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/crossbrowser/reports/**/*'
   }
 
   after('mutationTest') {
@@ -63,7 +69,4 @@ withNightlyPipeline("nodejs", product, component) {
       alwaysLinkToLastBuild: true
     ]
   }
-  after('securityScan') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
-}
 }
