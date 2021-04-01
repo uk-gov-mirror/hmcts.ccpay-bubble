@@ -23,7 +23,7 @@ module.exports = {
   mutate: [
     // Components
     'src/app/components/**/*.ts',
-    '!src/app/components/**/*.spec.ts',
+    '!src/app/components/**/*.spec.ts'
     // //  Models
     // 'src/app/models/**/*.ts',
     // '!src/app/models/**/*.spec.ts',
