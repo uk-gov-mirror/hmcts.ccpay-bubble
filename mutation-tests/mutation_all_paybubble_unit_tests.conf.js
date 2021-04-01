@@ -22,8 +22,8 @@ module.exports = {
   ],
   mutate: [
     // Components
-    'src/app/components/**/*.ts',
-    '!src/app/components/**/*.spec.ts'
+    // 'src/app/components/**/*.ts',
+    // '!src/app/components/**/*.spec.ts',
     // //  Models
     // 'src/app/models/**/*.ts',
     // '!src/app/models/**/*.spec.ts',
@@ -36,12 +36,12 @@ module.exports = {
     // '!src/app/services/**/*.spec.ts',
     // '!src/app/services/caseref/caseref.service.ts',
     // //  Shared
-    // 'src/app/shared/**/*.ts',
-    // '!src/app/shared/**/*.spec.ts',
-    // '!src/app/shared/interceptors/auth.dev.interceptor.ts',
-    // '!src/app/shared/validators/help-with-fees.validator.ts',
-    // '!src/app/shared/validators/index.ts',
-    // '!src/app/shared/components/header/header.component.ts'
+    'src/app/shared/**/*.ts',
+    '!src/app/shared/**/*.spec.ts',
+    '!src/app/shared/interceptors/auth.dev.interceptor.ts',
+    '!src/app/shared/validators/help-with-fees.validator.ts',
+    '!src/app/shared/validators/index.ts',
+    '!src/app/shared/components/header/header.component.ts'
 
 
   ],
